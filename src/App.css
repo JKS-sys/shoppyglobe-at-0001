@@ -2117,3 +2117,14 @@ select.error {
     font-size: 0.9rem;
   }
 }
+.footer {
+  background: #2c3e50;
+  color: white;
+  padding: 1.5rem 0;
+  text-align: center;
+  margin-top: 3rem;
+}
+.footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}

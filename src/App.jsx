@@ -30,6 +30,11 @@ function App() {
             </Suspense>
           </main>
         </div>
+        <footer className="footer">
+          <div className="footer-content">
+            <p>&copy; 2025 ShoppyGlobe. All rights reserved.</p>
+          </div>
+        </footer>
       </Router>
     </Provider>
   );
