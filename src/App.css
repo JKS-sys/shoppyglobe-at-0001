@@ -1200,3 +1200,37 @@
     grid-template-columns: 1fr;
   }
 }
+.product-reviews {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #ecf0f1;
+}
+
+.product-reviews h3 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.review {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.review-comment {
+  color: #5d6d7e;
+  line-height: 1.5;
+}
+
+.review-date {
+  color: #7f8c8d;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}

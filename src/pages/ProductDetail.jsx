@@ -3,10 +3,6 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/cartSlice";
 
-/**
- * ProductDetail component - displays detailed product information
- * Fetches product data based on route parameter
- */
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -59,7 +55,6 @@ const ProductDetail = () => {
     }
   };
 
-  // Loading state
   if (loading) {
     return (
       <div className="loading-container">
@@ -69,7 +64,6 @@ const ProductDetail = () => {
     );
   }
 
-  // Error state
   if (error) {
     return (
       <div className="error-container">
@@ -82,7 +76,6 @@ const ProductDetail = () => {
     );
   }
 
-  // Product not found
   if (!product) {
     return (
       <div className="error-container">
@@ -102,7 +95,6 @@ const ProductDetail = () => {
       </Link>
 
       <div className="product-detail-content">
-        {/* Product Images */}
         <div className="product-images">
           <div className="main-image">
             <img
@@ -134,11 +126,11 @@ const ProductDetail = () => {
           )}
         </div>
 
-        {/* Product Information */}
         <div className="product-info">
           <h1 className="product-title">{product.title}</h1>
           <p className="product-brand">by {product.brand}</p>
 
+          {/* FIXED: Rating section */}
           <div className="product-rating">
             <span className="rating-stars">
               {"⭐".repeat(Math.floor(product.rating))}
@@ -183,39 +175,6 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Customer Reviews Section - FIXED */}
-          {product.reviews && product.reviews.length > 0 && (
-            <div className="product-reviews">
-              <h3>Customer Reviews</h3>
-              <div className="reviews-list">
-                {product.reviews.map((review, index) => (
-                  <div key={index} className="review-item">
-                    <div className="review-header">
-                      <strong className="reviewer-name">
-                        {review.reviewerName}
-                      </strong>
-                      <span className="review-rating">
-                        ⭐ {review.rating}/5
-                      </span>
-                    </div>
-                    <p className="review-comment">"{review.comment}"</p>
-                    <div className="review-meta">
-                      <span className="review-date">
-                        {new Date(review.date).toLocaleDateString()}
-                      </span>
-                      {review.reviewerEmail && (
-                        <span className="review-email">
-                          {review.reviewerEmail}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Action Buttons */}
           <div className="product-actions">
             <button
               className={`add-to-cart-btn large ${
@@ -235,6 +194,25 @@ const ProductDetail = () => {
               Buy Now
             </button>
           </div>
+
+          {/* Optional: Display reviews if you want */}
+          {product.reviews && product.reviews.length > 0 && (
+            <div className="product-reviews">
+              <h3>Customer Reviews</h3>
+              {product.reviews.map((review, index) => (
+                <div key={index} className="review">
+                  <div className="review-header">
+                    <strong>{review.reviewerName}</strong>
+                    <span>Rating: {review.rating}/5</span>
+                  </div>
+                  <p className="review-comment">{review.comment}</p>
+                  <div className="review-date">
+                    {new Date(review.date).toLocaleDateString()}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
