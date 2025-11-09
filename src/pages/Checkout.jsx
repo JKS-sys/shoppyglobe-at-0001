@@ -33,6 +33,8 @@ const Checkout = () => {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showValidationPopup, setShowValidationPopup] = useState(false);
+  const [missingFields, setMissingFields] = useState([]);
 
   const cartItems = useSelector(selectCartItems);
   const cartTotal = useSelector(selectCartTotal);
@@ -62,43 +64,78 @@ const Checkout = () => {
 
   const validateForm = () => {
     const newErrors = {};
+    const missing = [];
 
     // Personal Information Validation
-    if (!formData.firstName.trim())
+    if (!formData.firstName.trim()) {
       newErrors.firstName = "First name is required";
-    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (!/\S+@\S+\.\S+/.test(formData.email))
+      missing.push("First Name");
+    }
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+      missing.push("Last Name");
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+      missing.push("Email Address");
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email is invalid";
-    if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
+    }
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+      missing.push("Phone Number");
+    }
 
     // Shipping Address Validation
-    if (!formData.address.trim()) newErrors.address = "Address is required";
-    if (!formData.city.trim()) newErrors.city = "City is required";
-    if (!formData.state.trim()) newErrors.state = "State is required";
-    if (!formData.zipCode.trim()) newErrors.zipCode = "ZIP code is required";
-    if (!formData.country.trim()) newErrors.country = "Country is required";
+    if (!formData.address.trim()) {
+      newErrors.address = "Address is required";
+      missing.push("Street Address");
+    }
+    if (!formData.city.trim()) {
+      newErrors.city = "City is required";
+      missing.push("City");
+    }
+    if (!formData.state.trim()) {
+      newErrors.state = "State is required";
+      missing.push("State");
+    }
+    if (!formData.zipCode.trim()) {
+      newErrors.zipCode = "ZIP code is required";
+      missing.push("ZIP Code");
+    }
+    if (!formData.country.trim()) {
+      newErrors.country = "Country is required";
+      missing.push("Country");
+    }
 
     // Payment Information Validation
-    if (!formData.cardNumber.trim())
+    if (!formData.cardNumber.trim()) {
       newErrors.cardNumber = "Card number is required";
-    if (!formData.expiryDate.trim())
-      newErrors.expiryDate = "Expiry date is required";
-    if (!formData.cvv.trim()) newErrors.cvv = "CVV is required";
-    if (!formData.nameOnCard.trim())
-      newErrors.nameOnCard = "Name on card is required";
-
-    // Card number validation (basic)
-    if (formData.cardNumber.replace(/\s/g, "").length !== 16) {
+      missing.push("Card Number");
+    } else if (formData.cardNumber.replace(/\s/g, "").length !== 16) {
       newErrors.cardNumber = "Card number must be 16 digits";
     }
 
-    // CVV validation
-    if (formData.cvv.length !== 3) {
+    if (!formData.expiryDate.trim()) {
+      newErrors.expiryDate = "Expiry date is required";
+      missing.push("Expiry Date");
+    }
+
+    if (!formData.cvv.trim()) {
+      newErrors.cvv = "CVV is required";
+      missing.push("CVV");
+    } else if (formData.cvv.length !== 3) {
       newErrors.cvv = "CVV must be 3 digits";
     }
 
+    if (!formData.nameOnCard.trim()) {
+      newErrors.nameOnCard = "Name on card is required";
+      missing.push("Name on Card");
+    }
+
     setErrors(newErrors);
+    setMissingFields(missing);
+
     return Object.keys(newErrors).length === 0;
   };
 
@@ -106,6 +143,8 @@ const Checkout = () => {
     e.preventDefault();
 
     if (!validateForm()) {
+      // Show popup with missing fields
+      setShowValidationPopup(true);
       return;
     }
 
@@ -130,6 +169,10 @@ const Checkout = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const closePopup = () => {
+    setShowValidationPopup(false);
   };
 
   // Format card number with spaces
@@ -192,6 +235,36 @@ const Checkout = () => {
 
   return (
     <div className="checkout">
+      {/* Validation Popup */}
+      {showValidationPopup && (
+        <div className="popup-overlay">
+          <div className="validation-popup">
+            <div className="popup-header">
+              <h3>⚠️ Form Incomplete</h3>
+              <button className="close-popup" onClick={closePopup}>
+                ×
+              </button>
+            </div>
+            <div className="popup-content">
+              <p>Please fill in the following required fields:</p>
+              <ul className="missing-fields-list">
+                {missingFields.map((field, index) => (
+                  <li key={index}>• {field}</li>
+                ))}
+              </ul>
+              <p className="popup-note">
+                All fields marked with * are required to complete your order.
+              </p>
+            </div>
+            <div className="popup-actions">
+              <button className="popup-ok-btn" onClick={closePopup}>
+                OK, I'll fix them
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="checkout-header">
         <h1>Checkout</h1>
         <div className="checkout-steps">
