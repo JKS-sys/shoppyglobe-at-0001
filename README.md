@@ -2,7 +2,7 @@
 
 A modern, responsive e-commerce web application built with React, Redux, and React Router. ShoppyGlobe provides a seamless shopping experience with product browsing, cart management, and secure checkout.
 
-![ShoppyGlobe Screenshot](https://shoppyglobe-at-0001.vercel.app/public/Screenshot%25202025-11-09%2520at%252012.19.12.png)
+![ShoppyGlobe Screenshot](https://github.com/JKS-sys/shoppyglobe-at-0001/blob/main/public/Screenshot%202025-11-09%20at%2012.19.12.png)
 
 ## 🚀 Live Demo
 
