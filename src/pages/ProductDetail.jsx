@@ -145,7 +145,7 @@ const ProductDetail = () => {
             </span>
             <span className="rating-value">{product.rating}/5</span>
             <span className="rating-count">
-              ({product.reviews || 0} reviews)
+              ({product.reviews ? product.reviews.length : 0} reviews)
             </span>
           </div>
 
@@ -182,6 +182,38 @@ const ProductDetail = () => {
               <strong>SKU:</strong> {product.id}
             </div>
           </div>
+
+          {/* Customer Reviews Section - FIXED */}
+          {product.reviews && product.reviews.length > 0 && (
+            <div className="product-reviews">
+              <h3>Customer Reviews</h3>
+              <div className="reviews-list">
+                {product.reviews.map((review, index) => (
+                  <div key={index} className="review-item">
+                    <div className="review-header">
+                      <strong className="reviewer-name">
+                        {review.reviewerName}
+                      </strong>
+                      <span className="review-rating">
+                        ⭐ {review.rating}/5
+                      </span>
+                    </div>
+                    <p className="review-comment">"{review.comment}"</p>
+                    <div className="review-meta">
+                      <span className="review-date">
+                        {new Date(review.date).toLocaleDateString()}
+                      </span>
+                      {review.reviewerEmail && (
+                        <span className="review-email">
+                          {review.reviewerEmail}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Action Buttons */}
           <div className="product-actions">
