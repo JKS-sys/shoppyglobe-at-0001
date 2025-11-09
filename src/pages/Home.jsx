@@ -1,7 +1,15 @@
-import React from "react";
+import React, { Suspense } from "react";
 
-function Home() {
-  return <div>Home</div>;
-}
+const ProductList = React.lazy(() => import("../components/ProductList"));
+
+const Home = () => {
+  return (
+    <div className="home">
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProductList />
+      </Suspense>
+    </div>
+  );
+};
 
 export default Home;

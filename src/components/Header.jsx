@@ -16,7 +16,7 @@ const Header = () => {
     <header className="header">
       <nav className="nav">
         <Link to="/" className="logo">
-          <h1>🛍️ ShoppyGlobe</h1>
+          <h1>🌐 ShoppyGlobe</h1>
         </Link>
 
         <div className="search-bar">
