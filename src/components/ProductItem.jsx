@@ -41,7 +41,7 @@ const ProductItem = ({ product }) => {
           </div>
           <div className="product-rating">
             ⭐ {product.rating}
-            <span className="rating-count">({product.reviews || 0})</span>
+            <span className="rating-count">({product.reviewCount || 0})</span>
           </div>
           <div className="product-stock">
             {product.stock > 0 ? (

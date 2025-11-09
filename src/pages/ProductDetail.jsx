@@ -130,14 +130,15 @@ const ProductDetail = () => {
           <h1 className="product-title">{product.title}</h1>
           <p className="product-brand">by {product.brand}</p>
 
-          {/* FIXED: Rating section */}
+          {/* FIXED: Updated rating section for new API structure */}
           <div className="product-rating">
             <span className="rating-stars">
               {"⭐".repeat(Math.floor(product.rating))}
             </span>
             <span className="rating-value">{product.rating}/5</span>
             <span className="rating-count">
-              ({product.reviews ? product.reviews.length : 0} reviews)
+              {/* Use reviewCount if available, otherwise show 0 */}(
+              {product.reviewCount || 0} reviews)
             </span>
           </div>
 
@@ -171,9 +172,38 @@ const ProductDetail = () => {
               <strong>Category:</strong> {product.category}
             </div>
             <div className="meta-item">
-              <strong>SKU:</strong> {product.id}
+              <strong>SKU:</strong> {product.sku || product.id}
             </div>
+            {product.tags && product.tags.length > 0 && (
+              <div className="meta-item">
+                <strong>Tags:</strong> {product.tags.join(", ")}
+              </div>
+            )}
+            {product.weight && (
+              <div className="meta-item">
+                <strong>Weight:</strong> {product.weight} units
+              </div>
+            )}
           </div>
+
+          {/* Additional product information */}
+          {product.warrantyInformation && (
+            <div className="product-warranty">
+              <strong>Warranty:</strong> {product.warrantyInformation}
+            </div>
+          )}
+
+          {product.shippingInformation && (
+            <div className="product-shipping">
+              <strong>Shipping:</strong> {product.shippingInformation}
+            </div>
+          )}
+
+          {product.returnPolicy && (
+            <div className="product-return">
+              <strong>Return Policy:</strong> {product.returnPolicy}
+            </div>
+          )}
 
           <div className="product-actions">
             <button
@@ -195,24 +225,8 @@ const ProductDetail = () => {
             </button>
           </div>
 
-          {/* Optional: Display reviews if you want */}
-          {product.reviews && product.reviews.length > 0 && (
-            <div className="product-reviews">
-              <h3>Customer Reviews</h3>
-              {product.reviews.map((review, index) => (
-                <div key={index} className="review">
-                  <div className="review-header">
-                    <strong>{review.reviewerName}</strong>
-                    <span>Rating: {review.rating}/5</span>
-                  </div>
-                  <p className="review-comment">{review.comment}</p>
-                  <div className="review-date">
-                    {new Date(review.date).toLocaleDateString()}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+          {/* REMOVED: The reviews section since the API structure changed */}
+          {/* The reviews array in the new API structure is at the root level, not as objects */}
         </div>
       </div>
     </div>
